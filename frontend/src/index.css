@@ -1,0 +1,11 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: linear-gradient(0deg, rgba(87, 199, 133, 0.44) 50%, rgba(237, 221, 83, 0) 100%);
+    background-attachment: fixed; /* stops scroll stripe */
+    background-repeat: no-repeat; /* no repeating */
+    background-size: cover; /* cover entire page */
+}
