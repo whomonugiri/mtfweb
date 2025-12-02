@@ -1,10 +1,15 @@
 import { Hourglass } from "react-loader-spinner";
-export const OutlineButton = ({ busy = false, label }) => {
+export const OutlineButton = ({
+  busy = false,
+  label = "label",
+  action = () => {},
+}) => {
   return (
     <button
       className={`btn btn-outline-success btn-sm fw-bold w-100 ${
         busy && "disabled"
       }`}
+      onClick={action}
     >
       <Hourglass
         visible={busy}
