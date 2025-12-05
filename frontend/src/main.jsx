@@ -7,6 +7,7 @@ import "bootstrap/dist/js/bootstrap.js";
 import "toastr/build/toastr.min.css";
 import toastr from "toastr";
 import { BrowserRouter } from "react-router";
+import { AppProvider } from "./utils/AppProvider.jsx";
 
 toastr.options = {
   closeButton: false,
@@ -29,7 +30,9 @@ toastr.options = {
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <AppProvider>
+        <App />
+      </AppProvider>
     </BrowserRouter>
   </StrictMode>
 );

@@ -6,7 +6,7 @@ export const singleCall = (url, data, success, fail) => {
     .post(HOST + url, data)
     .then((response) => {
       if (response.data.success) {
-        toastr.success(response.data.message);
+        if (response?.data?.message) toastr.success(response.data.message);
         success(response?.data);
       } else {
         toastr.error("something is wrong, please try again later");

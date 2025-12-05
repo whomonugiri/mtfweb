@@ -8,6 +8,8 @@ import { SEND_OTP } from "../../api/endpoints";
 import { Navigate, useNavigate } from "react-router";
 
 export const Login = () => {
+  localStorage.removeItem("otpRef");
+  localStorage.removeItem("mobileNumber");
   const [mobile, setMobile] = useState("");
   const [busy, setBusy] = useState(false);
   const handleInputChange = (val) => {

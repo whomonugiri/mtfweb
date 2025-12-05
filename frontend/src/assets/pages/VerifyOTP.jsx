@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Logo from "../images/logo.png";
 import OtpInput from "react-otp-input";
 import { FaArrowLeft } from "react-icons/fa";
@@ -8,8 +8,10 @@ import { Navigate, useNavigate } from "react-router";
 import toastr from "toastr";
 import { SEND_OTP, VERFIY_OTP } from "../../api/endpoints";
 import { singleCall } from "../../api/functions";
+import { AppContext } from "../../utils/AppProvider";
 
 export const VerifyOTP = () => {
+  const { setIsAuth, setUserData } = useContext(AppContext);
   const [timer, setTimer] = useState(600);
   const [otp, setOtp] = useState("");
   const [busy, setBusy] = useState(false);
@@ -45,10 +47,14 @@ export const VerifyOTP = () => {
   const navigate = useNavigate();
 
   const onSuccess = (data) => {
-    toastr.success("You Logged In");
+    setUserData(data.data);
+    setIsAuth(true);
     console.log(data);
+
     localStorage.removeItem("otpRef");
     localStorage.removeItem("mobileNumber");
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("deviceId", data.deviceId);
   };
 
   const onFail = () => {

@@ -1,7 +1,7 @@
 const CONFIG = {
   PORT: 1427,
   MONGODB_URI: "mongodb://localhost:27017/mtfonline",
-  MERAOTP_API_KEY: "778c6d975b17cd96e70aad5a32",
+  MERAOTP_API_KEY: "c9d18b3b143d97f7f1aa4bbaba",
   JWT_SECRET: "ILOVEMYWEBSITE",
 };
 
