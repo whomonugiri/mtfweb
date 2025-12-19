@@ -9,3 +9,9 @@ body {
     background-repeat: no-repeat; /* no repeating */
     background-size: cover; /* cover entire page */
 }
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

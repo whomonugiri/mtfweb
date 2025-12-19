@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import { AppContext } from "../../utils/AppProvider";
+
 export const Sidebar = () => {
+  const { userData, isAuth } = useContext(AppContext);
   return (
     <>
       <div
@@ -9,9 +13,7 @@ export const Sidebar = () => {
         aria-labelledby="staticBackdropLabel"
       >
         <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="staticBackdropLabel">
-            Offcanvas
-          </h5>
+          <h5 className="offcanvas-title" id="staticBackdropLabel"></h5>
           <button
             type="button"
             className="btn-close"
@@ -19,9 +21,7 @@ export const Sidebar = () => {
             aria-label="Close"
           ></button>
         </div>
-        <div className="offcanvas-body">
-          <div>I will not close if you click outside of me.</div>
-        </div>
+        <div className="offcanvas-body"></div>
       </div>
     </>
   );

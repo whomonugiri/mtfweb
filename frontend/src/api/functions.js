@@ -2,6 +2,13 @@ import axios from "axios";
 import { HOST } from "./endpoints";
 import toastr from "toastr";
 export const singleCall = (url, data, success, fail) => {
+  const token = localStorage.getItem("token");
+  const deviceId = localStorage.getItem("deviceId");
+
+  if (token && deviceId) {
+    data.token = token;
+    data.deviceId = deviceId;
+  }
   axios
     .post(HOST + url, data)
     .then((response) => {

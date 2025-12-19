@@ -1,3 +1,6 @@
+import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
+import CONFIG from "../utils/config.js";
 export const auth = async (req, res, next) => {
   try {
     const { token, deviceId } = req.body;
