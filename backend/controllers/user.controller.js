@@ -49,6 +49,18 @@ export const updateProfile = async (req, res) => {
 
     const { fullName, emailId, brandName, address, GSTNO, MSME } = req.body;
 
+    // Check required company logo
+
+    if (
+      req.user.companyLogo == "" &&
+      (!req.files.companyLogo || req.files.companyLogo.length === 0)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Company logo is required",
+      });
+    }
+
     // Validate input
     const { error, isValid } = validateProfile(req.body);
     if (!isValid) {
@@ -71,18 +83,25 @@ export const updateProfile = async (req, res) => {
       });
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        fullName,
-        emailId,
-        brandName,
-        address,
-        GSTNO: GSTNO || "",
-        MSME: MSME || "",
-      },
-      { new: true }
-    ).select("-password");
+    // Handle file paths
+    const updateData = {
+      fullName,
+      emailId,
+      brandName,
+      address,
+      GSTNO: GSTNO || "",
+      MSME: MSME || "",
+      companyLogo:
+        req?.files?.companyLogo?.[0]?.filename || req.user.companyLogo,
+    };
+
+    if (req.files.signatureImage) {
+      updateData.signatureImage = req.files.signatureImage[0].filename;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+    }).select("-password");
 
     return res.json({
       success: true,

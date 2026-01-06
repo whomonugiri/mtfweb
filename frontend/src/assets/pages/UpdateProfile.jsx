@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../../utils/AppProvider";
 import { PrimaryButton } from "../elements/PrimaryButton";
-import { UPDATE_PROFILE } from "../../api/endpoints";
+import { HOST, UPDATE_PROFILE } from "../../api/endpoints";
 import { Link, useNavigate } from "react-router";
 import { singleCall } from "../../api/functions";
 
@@ -17,7 +17,12 @@ export const UpdateProfile = () => {
     address: "",
     GSTNO: "",
     MSME: "",
+    companyLogo: null,
+    signatureImage: null,
   });
+
+  const [previewLogo, setPreviewLogo] = useState(null);
+  const [previewSignature, setPreviewSignature] = useState(null);
 
   const [errors, setErrors] = useState({});
 
@@ -30,6 +35,8 @@ export const UpdateProfile = () => {
         address: userData.address || "",
         GSTNO: userData.GSTNO || "",
         MSME: userData.MSME || "",
+        companyLogo: userData.companyLogo || null,
+        signatureImage: userData.signatureImage || null,
       });
     }
   }, [userData]);
@@ -38,6 +45,25 @@ export const UpdateProfile = () => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
     setErrors({ ...errors, [name]: "" });
+  };
+
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setForm({ ...form, [name]: files[0] });
+    setErrors({ ...errors, [name]: "" });
+    if (files[0]) {
+      if (name === "companyLogo") {
+        setPreviewLogo(URL.createObjectURL(files[0]));
+      } else if (name === "signatureImage") {
+        setPreviewSignature(URL.createObjectURL(files[0]));
+      }
+    } else {
+      if (name === "companyLogo") {
+        setPreviewLogo(null);
+      } else if (name === "signatureImage") {
+        setPreviewSignature(null);
+      }
+    }
   };
 
   const validate = () => {
@@ -61,6 +87,10 @@ export const UpdateProfile = () => {
       newErrors.address = "Address is required";
     }
 
+    if (!form.companyLogo) {
+      newErrors.companyLogo = "Company logo is required";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -80,7 +110,23 @@ export const UpdateProfile = () => {
 
     if (!validate()) return;
     setBusy(true);
-    singleCall(UPDATE_PROFILE, form, onSuccess, onFail);
+
+    const hasFiles = form.companyLogo || form.signatureImage;
+    let dataToSend;
+
+    if (hasFiles) {
+      const formData = new FormData();
+      Object.keys(form).forEach((key) => {
+        if (form[key] !== null && form[key] !== "") {
+          formData.append(key, form[key]);
+        }
+      });
+      dataToSend = formData;
+    } else {
+      dataToSend = { ...form };
+    }
+
+    singleCall(UPDATE_PROFILE, dataToSend, onSuccess, onFail);
   };
 
   return (
@@ -95,6 +141,32 @@ export const UpdateProfile = () => {
 
         <div className="card-body">
           <form onSubmit={handleSubmit}>
+            {/* Company Logo */}
+            <div className="mb-3">
+              {(previewLogo ||
+                (typeof form.companyLogo === "string" && form.companyLogo)) && (
+                <div className="mb-2">
+                  <img
+                    src={previewLogo || HOST + "/uploads/" + form.companyLogo}
+                    alt="Company Logo Preview"
+                    style={{ maxWidth: "200px", maxHeight: "200px" }}
+                    crossOrigin="anonymous"
+                  />
+                </div>
+              )}
+              <label className="form-label">Company Logo *</label>
+              <input
+                type="file"
+                className={`form-c  ontrol ${
+                  errors.companyLogo ? "is-invalid" : ""
+                }`}
+                name="companyLogo"
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+              <div className="invalid-feedback">{errors.companyLogo}</div>
+            </div>
+
             {/* Full Name */}
             <div className="mb-3">
               <label className="form-label">Full Name *</label>
@@ -172,6 +244,33 @@ export const UpdateProfile = () => {
                 name="MSME"
                 value={form.MSME}
                 onChange={handleChange}
+              />
+            </div>
+
+            {/* Signature Image */}
+            <div className="mb-3">
+              {(previewSignature ||
+                (typeof form.signatureImage === "string" &&
+                  form.signatureImage)) && (
+                <div className="mb-2">
+                  <img
+                    src={
+                      previewSignature ||
+                      HOST + "/uploads/" + form.signatureImage
+                    }
+                    alt="Signature Image Preview"
+                    style={{ maxWidth: "200px", maxHeight: "200px" }}
+                    crossOrigin="anonymous"
+                  />
+                </div>
+              )}
+              <label className="form-label">Signature Image (Optional)</label>
+              <input
+                type="file"
+                className="form-control"
+                name="signatureImage"
+                accept="image/*"
+                onChange={handleFileChange}
               />
             </div>
 

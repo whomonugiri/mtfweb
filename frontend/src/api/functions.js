@@ -6,8 +6,13 @@ export const singleCall = (url, data, success, fail) => {
   const deviceId = localStorage.getItem("deviceId");
 
   if (token && deviceId) {
-    data.token = token;
-    data.deviceId = deviceId;
+    if (data instanceof FormData) {
+      data.append("token", token);
+      data.append("deviceId", deviceId);
+    } else {
+      data.token = token;
+      data.deviceId = deviceId;
+    }
   }
   axios
     .post(HOST + url, data)

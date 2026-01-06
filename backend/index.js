@@ -26,10 +26,12 @@ app.use(rateLimiter(limterConfig));
 const corsConfig = {
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
+  credentials: false,
 };
 
 app.use(cors(corsConfig));
+
+app.use("/uploads", express.static("uploads"));
 
 app.use("/api/user/v1", router);
 

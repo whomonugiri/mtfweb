@@ -37,6 +37,16 @@ const userSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
+    companyLogo: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    signatureImage: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     deviceId: {
       type: String,
       default: "",
