@@ -61,7 +61,7 @@ export const Sidebar = () => {
               <SidebarButton
                 title="Manage Clients"
                 icon={<MdSupervisedUserCircle />}
-                path="/"
+                path="/manage-clients"
               />
 
               <SidebarButton

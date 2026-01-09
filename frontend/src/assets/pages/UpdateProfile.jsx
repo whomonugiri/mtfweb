@@ -134,7 +134,7 @@ export const UpdateProfile = () => {
       <div className="card shadow-sm">
         <div className="card-header d-flex justify-content-between align-items-center">
           <h5 className="mb-0 text-center fw-bold">Update Your Profile</h5>
-          <Link to="/" className="btn btn-sm btn-outline-primary">
+          <Link to="/" className="btn btn-sm btn-outline-success">
             Home
           </Link>
         </div>

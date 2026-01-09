@@ -1,6 +1,13 @@
 import express from "express";
 import { sendOtp, verifyOtp } from "../controllers/otp.controller.js";
 import { autoLogin, updateProfile } from "../controllers/user.controller.js";
+import {
+  addClient,
+  updateClient,
+  deleteClient,
+  getClient,
+  getAllClients,
+} from "../controllers/client.controller.js";
 import { auth } from "../middlewares/auth.middleware.js";
 import multer from "multer";
 import path from "path";
@@ -43,5 +50,12 @@ router.post(
   auth,
   updateProfile
 );
+
+// Client routes
+router.post("/addClient", auth, addClient);
+router.post("/updateClient", auth, updateClient);
+router.post("/deleteClient", auth, deleteClient);
+router.post("/getClient", auth, getClient);
+router.get("/getAllClients", auth, getAllClients);
 
 export default router;

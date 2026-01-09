@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 import CONFIG from "../utils/config.js";
 export const auth = async (req, res, next) => {
   try {
-    const { token, deviceId } = req.body;
+    const { token, deviceId } = req.body || req.query || req.headers;
 
     const verified = jwt.verify(token, CONFIG.JWT_SECRET);
 

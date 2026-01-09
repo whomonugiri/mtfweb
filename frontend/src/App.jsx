@@ -11,6 +11,8 @@ import { singleCall } from "./api/functions";
 import { AUTOLOGIN } from "./api/endpoints";
 import { UpdateProfile } from "./assets/pages/UpdateProfile";
 import Loader from "./assets/elements/Loader";
+import { AddClient } from "./assets/pages/AddClient";
+import { ManageClients } from "./assets/pages/ManageClients";
 
 function App() {
   const { isAuth, setIsAuth, setUserData } = useContext(AppContext);
@@ -63,6 +65,34 @@ function App() {
               </AuthPage>
             }
           />
+
+          <Route
+            path="/add-client"
+            element={
+              <AuthPage isAuth={isAuth} req={false}>
+                <AddClient />
+              </AuthPage>
+            }
+          />
+
+          <Route
+            path="/manage-clients"
+            element={
+              <AuthPage isAuth={isAuth} req={false}>
+                <ManageClients />
+              </AuthPage>
+            }
+          />
+
+          <Route
+            path="/update-client/:clientId"
+            element={
+              <AuthPage isAuth={isAuth} req={false}>
+                <AddClient />
+              </AuthPage>
+            }
+          />
+
           <Route
             path="/login"
             element={
