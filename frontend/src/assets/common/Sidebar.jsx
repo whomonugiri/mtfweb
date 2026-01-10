@@ -67,7 +67,7 @@ export const Sidebar = () => {
               <SidebarButton
                 title="Manage Projects"
                 icon={<MdComputer />}
-                path="/"
+                path="/manage-projects"
               />
 
               <SidebarButton

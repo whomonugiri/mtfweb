@@ -270,7 +270,7 @@ export const getAllClients = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Clients fetched successfully",
+
       data: clients,
       pagination: {
         currentPage: page,
@@ -287,6 +287,39 @@ export const getAllClients = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: message,
+    });
+  }
+};
+
+export const searchClients = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { search = "", limit = 10 } = req.query;
+
+    const searchRegex = new RegExp(search, "i");
+
+    // Search clients by name, email, or mobile number
+    const clients = await Client.find({
+      userId,
+      $or: [
+        { clientName: searchRegex },
+        { email: searchRegex },
+        { mobileNumber: searchRegex },
+      ],
+    })
+      .sort({ createdAt: -1 })
+      .limit(parseInt(limit));
+
+    return res.status(200).json({
+      success: true,
+      message: "Clients searched successfully",
+      data: clients,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };

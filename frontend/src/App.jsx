@@ -13,6 +13,10 @@ import { UpdateProfile } from "./assets/pages/UpdateProfile";
 import Loader from "./assets/elements/Loader";
 import { AddClient } from "./assets/pages/AddClient";
 import { ManageClients } from "./assets/pages/ManageClients";
+import { AddProject } from "./assets/pages/AddProject";
+import { ManageProjects } from "./assets/pages/ManageProjects";
+import { OpenProject } from "./assets/pages/OpenProject";
+import { PublicProject } from "./assets/pages/PublicProject";
 
 function App() {
   const { isAuth, setIsAuth, setUserData } = useContext(AppContext);
@@ -46,6 +50,9 @@ function App() {
   return (
     <>
       <Routes>
+        {/* Public routes */}
+        <Route path="/p/:projectId" element={<PublicProject />} />
+
         <Route path="/" element={<Master />}>
           <Route
             index
@@ -85,10 +92,55 @@ function App() {
           />
 
           <Route
+            path="/manage-projects"
+            element={
+              <AuthPage isAuth={isAuth} req={false}>
+                <ManageProjects />
+              </AuthPage>
+            }
+          />
+
+          <Route
             path="/update-client/:clientId"
             element={
               <AuthPage isAuth={isAuth} req={false}>
                 <AddClient />
+              </AuthPage>
+            }
+          />
+
+          <Route
+            path="/manage-projects"
+            element={
+              <AuthPage isAuth={isAuth} req={false}>
+                <ManageProjects />
+              </AuthPage>
+            }
+          />
+
+          <Route
+            path="/add-project"
+            element={
+              <AuthPage isAuth={isAuth} req={false}>
+                <AddProject />
+              </AuthPage>
+            }
+          />
+
+          <Route
+            path="/update-project/:projectId"
+            element={
+              <AuthPage isAuth={isAuth} req={false}>
+                <AddProject />
+              </AuthPage>
+            }
+          />
+
+          <Route
+            path="/project/:projectId"
+            element={
+              <AuthPage isAuth={isAuth} req={false}>
+                <OpenProject />
               </AuthPage>
             }
           />

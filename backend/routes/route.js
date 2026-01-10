@@ -7,7 +7,17 @@ import {
   deleteClient,
   getClient,
   getAllClients,
+  searchClients,
 } from "../controllers/client.controller.js";
+import {
+  addProject,
+  updateProject,
+  deleteProject,
+  getProject,
+  getAllProjects,
+  addProjectLog,
+  getPublicProject,
+} from "../controllers/project.controller.js";
 import { auth } from "../middlewares/auth.middleware.js";
 import multer from "multer";
 import path from "path";
@@ -57,5 +67,17 @@ router.post("/updateClient", auth, updateClient);
 router.post("/deleteClient", auth, deleteClient);
 router.post("/getClient", auth, getClient);
 router.get("/getAllClients", auth, getAllClients);
+router.get("/searchClients", auth, searchClients);
+
+// Project routes
+router.post("/addProject", auth, addProject);
+router.post("/updateProject", auth, updateProject);
+router.post("/deleteProject", auth, deleteProject);
+router.post("/getProject", auth, getProject);
+router.get("/getAllProjects", auth, getAllProjects);
+router.post("/addProjectLog", auth, addProjectLog);
+
+// Public project route (no auth required)
+router.get("/public/project/:projectId", getPublicProject);
 
 export default router;
